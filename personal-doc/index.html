@@ -1,0 +1,307 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>株式分析 personal-doc</title>
+    <link rel="stylesheet" href="assets/style.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <div class="brand">
+          <a href="index.html">株式分析</a>
+          <small>personal-doc</small>
+        </div>
+        <nav class="nav" aria-label="主要セクション">
+          <a href="#dashboard">概要</a>
+          <a href="#stocks">銘柄</a>
+          <a href="#notes">ノート</a>
+          <a href="#templates">型</a>
+          <a href="#data">データ</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page">
+      <section class="hero" id="dashboard" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">stock analysis workspace</p>
+          <h1 id="page-title">投資判断を残すための個人メモ</h1>
+          <p class="lead">
+            仮説、数字、リスク、見直し日をひとつの画面で管理します。市場価格や財務データは手入力です。
+          </p>
+        </div>
+        <aside class="summary-panel" aria-label="登録状況">
+          <dl class="summary-grid">
+            <div>
+              <dt>登録銘柄</dt>
+              <dd data-stat="total">0</dd>
+            </div>
+            <div>
+              <dt>保有</dt>
+              <dd data-stat="owned">0</dd>
+            </div>
+            <div>
+              <dt>監視</dt>
+              <dd data-stat="watching">0</dd>
+            </div>
+            <div>
+              <dt>平均乖離</dt>
+              <dd data-stat="avg-upside">-</dd>
+            </div>
+          </dl>
+          <div class="next-review">
+            <span>次回見直し</span>
+            <strong data-stat="next-review">未設定</strong>
+          </div>
+        </aside>
+      </section>
+
+      <section class="section split" id="stocks" aria-labelledby="stocks-title">
+        <div class="panel">
+          <div class="section-head">
+            <div>
+              <h2 id="stocks-title">銘柄</h2>
+              <p>投資仮説、目標価格、見直し日を銘柄ごとに残します。</p>
+            </div>
+          </div>
+
+          <form class="stock-form" data-stock-form>
+            <input type="hidden" name="id" />
+            <div class="form-grid">
+              <label>
+                <span>コード</span>
+                <input name="symbol" autocomplete="off" placeholder="7203 / AAPL" required />
+              </label>
+              <label>
+                <span>銘柄名</span>
+                <input name="name" autocomplete="off" placeholder="任天堂 / Apple" />
+              </label>
+              <label>
+                <span>市場</span>
+                <select name="market">
+                  <option value="JP">日本株</option>
+                  <option value="US">米国株</option>
+                  <option value="ETF">ETF</option>
+                  <option value="REIT">REIT</option>
+                  <option value="OTHER">その他</option>
+                </select>
+              </label>
+              <label>
+                <span>状態</span>
+                <select name="status">
+                  <option value="調査中">調査中</option>
+                  <option value="監視">監視</option>
+                  <option value="保有">保有</option>
+                  <option value="見送り">見送り</option>
+                </select>
+              </label>
+              <label>
+                <span>現在価格</span>
+                <input name="currentPrice" inputmode="decimal" placeholder="0" />
+              </label>
+              <label>
+                <span>目標価格</span>
+                <input name="targetPrice" inputmode="decimal" placeholder="0" />
+              </label>
+              <label>
+                <span>見直し日</span>
+                <input name="reviewDate" type="date" />
+              </label>
+              <label>
+                <span>次の行動</span>
+                <input name="nextAction" autocomplete="off" placeholder="決算確認 / 追加調査" />
+              </label>
+            </div>
+            <label class="full">
+              <span>投資仮説</span>
+              <textarea name="thesis" rows="4" placeholder="なぜこの銘柄を見るのか。何が起きれば仮説が崩れるか。"></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="primary" type="submit">保存</button>
+              <button type="button" data-clear-stock>クリア</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel checklist-panel">
+          <div class="section-head compact">
+            <div>
+              <h2>分析チェック</h2>
+              <p data-check-progress>0/8 完了</p>
+            </div>
+            <button type="button" data-reset-checks>リセット</button>
+          </div>
+          <div class="progress" aria-hidden="true">
+            <span data-check-progress-bar></span>
+          </div>
+          <div class="checklist">
+            <label><input type="checkbox" data-check="business" /> 事業内容を一文で説明できる</label>
+            <label><input type="checkbox" data-check="growth" /> 売上、利益、FCFの方向感を確認した</label>
+            <label><input type="checkbox" data-check="balance" /> 自己資本比率、有利子負債、資本効率を見た</label>
+            <label><input type="checkbox" data-check="valuation" /> PER、PBR、EV/EBITDA、利回りを比較した</label>
+            <label><input type="checkbox" data-check="competition" /> 競合と市場シェアを確認した</label>
+            <label><input type="checkbox" data-check="risk" /> 主要リスクと撤退条件を書いた</label>
+            <label><input type="checkbox" data-check="catalyst" /> カタリストと決算日を確認した</label>
+            <label><input type="checkbox" data-check="counter" /> 反証材料を探した</label>
+          </div>
+        </div>
+      </section>
+
+      <section class="section panel" aria-labelledby="watchlist-title">
+        <div class="table-toolbar">
+          <div>
+            <h2 id="watchlist-title">ウォッチリスト</h2>
+            <p data-status-message aria-live="polite"></p>
+          </div>
+          <div class="filters">
+            <input data-search placeholder="検索" aria-label="銘柄検索" />
+            <select data-status-filter aria-label="状態で絞り込み">
+              <option value="">すべて</option>
+              <option value="調査中">調査中</option>
+              <option value="監視">監視</option>
+              <option value="保有">保有</option>
+              <option value="見送り">見送り</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>コード</th>
+                <th>銘柄名</th>
+                <th>市場</th>
+                <th>状態</th>
+                <th class="num">現在</th>
+                <th class="num">目標</th>
+                <th class="num">乖離</th>
+                <th>見直し</th>
+                <th>次の行動</th>
+                <th class="actions-col">操作</th>
+              </tr>
+            </thead>
+            <tbody data-watchlist></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="section split note-split" id="notes" aria-labelledby="notes-title">
+        <div class="panel">
+          <div class="section-head">
+            <div>
+              <h2 id="notes-title">銘柄ノート</h2>
+              <p>決算、ニュース、仮説変更、売買判断を時系列で残します。</p>
+            </div>
+          </div>
+
+          <form class="note-form" data-note-form>
+            <div class="form-grid note-grid">
+              <label>
+                <span>銘柄</span>
+                <select name="symbol" data-note-symbols>
+                  <option value="">全体メモ</option>
+                </select>
+              </label>
+              <label>
+                <span>分類</span>
+                <select name="type">
+                  <option value="仮説">仮説</option>
+                  <option value="決算">決算</option>
+                  <option value="ニュース">ニュース</option>
+                  <option value="リスク">リスク</option>
+                  <option value="売買判断">売買判断</option>
+                </select>
+              </label>
+              <label>
+                <span>日付</span>
+                <input name="date" type="date" />
+              </label>
+            </div>
+            <label class="full">
+              <span>本文</span>
+              <textarea name="body" rows="5" required placeholder="事実、解釈、次の確認事項を分けて書く。"></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="primary" type="submit">追加</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="panel notes-panel">
+          <h2>最近のノート</h2>
+          <div class="notes-list" data-notes-list></div>
+        </div>
+      </section>
+
+      <section class="section panel" id="templates" aria-labelledby="templates-title">
+        <div class="section-head">
+          <div>
+            <h2 id="templates-title">分析テンプレート</h2>
+            <p>銘柄ごとの判断を同じ粒度で残します。</p>
+          </div>
+        </div>
+
+        <div class="template-grid">
+          <article class="template-block">
+            <h3>ワンページメモ</h3>
+            <dl>
+              <div><dt>結論</dt><dd>買う / 待つ / 見送る。理由を一文で。</dd></div>
+              <div><dt>事業</dt><dd>収益源、顧客、競争優位、成長余地。</dd></div>
+              <div><dt>数字</dt><dd>売上成長率、営業利益率、FCF、ROE、負債。</dd></div>
+              <div><dt>価格</dt><dd>現在価格、目標価格、許容下落、比較対象。</dd></div>
+              <div><dt>反証</dt><dd>仮説が間違っているとしたら何が見えるか。</dd></div>
+            </dl>
+          </article>
+          <article class="template-block">
+            <h3>決算確認</h3>
+            <dl>
+              <div><dt>前回仮説</dt><dd>期待していた指標とイベント。</dd></div>
+              <div><dt>実績</dt><dd>売上、利益、ガイダンス、セグメント別の変化。</dd></div>
+              <div><dt>差分</dt><dd>良かった点、悪かった点、見落とし。</dd></div>
+              <div><dt>判断</dt><dd>継続 / 追加調査 / 縮小 / 撤退。</dd></div>
+            </dl>
+          </article>
+          <article class="template-block">
+            <h3>撤退条件</h3>
+            <dl>
+              <div><dt>業績</dt><dd>利益率、受注、解約率、在庫、価格転嫁。</dd></div>
+              <div><dt>財務</dt><dd>負債増、希薄化、キャッシュ不足。</dd></div>
+              <div><dt>市場</dt><dd>競争環境、規制、技術変化。</dd></div>
+              <div><dt>価格</dt><dd>想定を超えた過熱、損切り、機会費用。</dd></div>
+            </dl>
+          </article>
+        </div>
+      </section>
+
+      <section class="section panel" id="data" aria-labelledby="data-title">
+        <div class="section-head data-head">
+          <div>
+            <h2 id="data-title">データ</h2>
+            <p>ブラウザ保存データをJSONで退避します。</p>
+          </div>
+          <div class="data-actions">
+            <button type="button" data-export>書き出し</button>
+            <label class="file-button">
+              読み込み
+              <input type="file" accept="application/json" data-import />
+            </label>
+            <button type="button" class="danger" data-reset-all>全削除</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <span>株式分析 personal-doc</span>
+        <span data-updated-at>未保存</span>
+      </div>
+    </footer>
+
+    <script src="assets/seed-data.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
